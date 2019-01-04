@@ -158,7 +158,21 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    if (Array.isArray(collection)) {
+      if (accumulator === undefined) {
+        accumulator = collection[0];
+        for (var i = 1; i < collection.length; i++) {
+          accumulator = iterator(accumulator, collection[i], i, collection);
+        }
+      } else {
+        for (var i = 0; i < collection.length; i++) {
+          accumulator = iterator(accumulator, collection[i], i, collection);
+        }
+      }
+    }
+    return accumulator;
   };
+  
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -176,6 +190,13 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    return _.reduce(collection, function(isTrue, item) {
+      if (iterator(item) === isTrue) {
+        return true;
+      } else {
+        return false;
+      }
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -204,6 +225,7 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    
   };
 
   // Like extend, but doesn't ever overwrite a key that already
