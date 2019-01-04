@@ -476,11 +476,10 @@
         var orderTraversed = [];
 
         _.reduce([1, 2, 3, 4], function(memo, item) {
-          // FILL_ME_IN
-          // Add a line here that makes this test pass
-          // for a working implementation of reduce
+          orderTraversed.push(item);
           return memo;
         }, 10);
+        
 
         expect(orderTraversed).to.eql([1, 2, 3, 4]);
       });
